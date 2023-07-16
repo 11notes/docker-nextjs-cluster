@@ -9,6 +9,11 @@
     RUN set -ex; \
       mkdir -p ${APP_ROOT}/js;
 
+  # :: update image
+    RUN set -ex; \
+      apk update; \
+      apk upgrade;
+
   # :: copy root filesystem changes and add execution rights to init scripts
     COPY ./rootfs /
     RUN set -ex; \
