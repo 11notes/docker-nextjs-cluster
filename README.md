@@ -2,13 +2,12 @@
 Run Nextjs Cluster based on Alpine Linux. Small, lightweight, secure and fast 🏔️
 
 ## Volumes
-* **/next/js/** - Directory of  your nextjs standalone app
+* **/next/js/** - Directory of your nextjs standalone app
 
 ## Run
 ```shell
 docker run --name nextjs-cluster \
   -v ../js:/next/js \
-  -e PORTS=8080-8096 \
   -d 11notes/nextjs-cluster:[tag]
 ```
 
@@ -20,6 +19,21 @@ docker run --name nextjs-cluster \
   -e OVERCOMMIT=true \
   -d 11notes/nextjs-cluster:[tag]
 ```
+
+## Defaults
+| Parameter | Value | Description |
+| --- | --- | --- |
+| `user` | docker | user docker |
+| `uid` | 1000 | user id 1000 |
+| `gid` | 1000 | group id 1000 |
+
+## Environment
+| Parameter | Value | Default |
+| --- | --- | --- |
+| `JS` | path to javascript file for fork() | /next/js/server.js |
+| `PORTS` | port range | 8080-n(cpus) |
+| `IP` | localhost or 127.0.0.1 or a dedicated IP | 0.0.0.0 |
+| `OVERCOMMIT` | Fork more nodejs than CPU availabile | false |
 
 ## Parent
 * [11notes/node:stable](https://github.com/11notes/docker-node)
