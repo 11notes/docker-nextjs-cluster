@@ -2,7 +2,7 @@
 Run Nextjs Cluster based on Alpine Linux. Small, lightweight, secure and fast 🏔️
 
 ## Volumes
-* **/next/js/** - Directory of your nextjs standalone app
+* **/next/js** - Directory of your nextjs standalone app
 
 ## Run
 ```shell
