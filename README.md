@@ -26,6 +26,7 @@ docker run --name nextjs-cluster \
 | `user` | docker | user docker |
 | `uid` | 1000 | user id 1000 |
 | `gid` | 1000 | group id 1000 |
+| `home` | /next | home directory of user docker |
 
 ## Environment
 | Parameter | Value | Default |
