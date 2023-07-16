@@ -1,15 +1,20 @@
 const { fork } = require('node:child_process');
 const fs = require('node:fs')
 const standalone = `${__dirname}/js/server.js`;
-const ports = process.env?.PORTS;
-const overcommit = (undefined !== process.env?.OVERCOMMIT) ? true : false || false;
+const portRange = process.env?.PORTS;
+const ip = (undefined !== process.env?.IP && /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/i.test(process.env?.IP)) ? process.env?.IP : '0.0.0.0';
+const overcommit = (undefined !== process.env?.OVERCOMMIT) ? true : false;
 const { cpus } = require('node:os');
 
-if(/^\d+\-\d+$/i.test(ports)){
-  if(overcommit || ports.split('-').length <= cpus().length){
-    for(let port=ports.split('-')[0]; port<=ports.split('-')[1]; port++){
+if(/^\d+\-\d+$/i.test(portRange)){
+  const from = parseInt(portRange.match(/(\d+)\-(\d+)/i)[1], 10);
+  const to = parseInt(portRange.match(/(\d+)\-(\d+)/i)[2], 10);
+  const ports = Array.from(Array((to-from)+1), (_, i) => i+from);
+
+  if(overcommit || ports.length <= cpus().length){
+    for(const port of ports){
       if(fs.existsSync(standalone)){
-        const child = fork(standalone, [], {env:{PORT:port}});
+        const child = fork(standalone, [], {env:{PORT:port, HOSTNAME:ip}});
         child.on('error', (error) =>{
           console.error(error);
         });
