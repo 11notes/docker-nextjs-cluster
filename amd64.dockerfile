@@ -20,7 +20,7 @@
       chown -R 1000:1000 \
         ${APP_ROOT};
 
-    # :: update image binaries and empty cache
+  # :: update image binaries and empty cache
     RUN set -ex; \
       apk --no-cache --update upgrade; \
       apk cache clean;
