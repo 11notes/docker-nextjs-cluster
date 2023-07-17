@@ -9,21 +9,12 @@
     RUN set -ex; \
       mkdir -p ${APP_ROOT}/js;
 
-  # :: copy root filesystem changes and add execution rights to init scripts
+  # :: copy root filesystem changes and set correct permissions
     COPY ./rootfs /
     RUN set -ex; \
-      chmod +x -R /usr/local/bin
-
-  # :: set correct permission
-    RUN set -ex; \
-      usermod -d ${APP_ROOT} docker; \
+      chmod +x -R /usr/local/bin; \
       chown -R 1000:1000 \
-        ${APP_ROOT};
-
-  # :: update image binaries and empty cache
-    RUN set -ex; \
-      apk --no-cache --update upgrade; \
-      apk cache clean;
+        ${APP_ROOT}
 
 # :: Volumes
   VOLUME ["${APP_ROOT}/js"]
