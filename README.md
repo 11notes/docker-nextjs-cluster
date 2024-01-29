@@ -1,14 +1,19 @@
 # Alpine :: Nextjs Cluster
+![size](https://img.shields.io/docker/image-size/11notes/nextjs-cluster/4.18.2?color=0eb305) ![version](https://img.shields.io/docker/v/11notes/nextjs-cluster?color=eb7a09) ![pulls](https://img.shields.io/docker/pulls/11notes/nextjs-cluster?color=2b75d6) ![activity](https://img.shields.io/github/commit-activity/m/11notes/docker-nextjs-cluster?color=c91cb8) ![commit-last](https://img.shields.io/github/last-commit/11notes/docker-nextjs-cluster?color=c91cb8)
+
 Run Nextjs Cluster based on Alpine Linux. Small, lightweight, secure and fast 🏔️
 
+## Description
+Use this image as a base layer to deploy or develop your nodejs application with express. Simply add your code and your package.json to `-v .../app:/next`. You can use the existing express.js class if you want, like this:
+
 ## Volumes
-* **/next/js** - Directory of your nextjs standalone app
+* **/next/js** - Directory of your nodejs express application (main.js or package.json)
 
 ## Run
 ```shell
 docker run --name nextjs-cluster \
   -v ../js:/next/js \
-  -d 11notes/nextjs-cluster:[tag]
+  -d 11notesnextjs-cluster:[tag]
 ```
 
 Overcommit (run more forks than CPUs available)
@@ -17,7 +22,7 @@ docker run --name nextjs-cluster \
   -v ../js:/next/js \
   -e PORTS=8080-8100 \
   -e OVERCOMMIT=true \
-  -d 11notes/nextjs-cluster:[tag]
+  -d 11notesnextjs-cluster:[tag]
 ```
 
 ## Defaults
@@ -31,18 +36,19 @@ docker run --name nextjs-cluster \
 ## Environment
 | Parameter | Value | Default |
 | --- | --- | --- |
+| `TZ` | [Time Zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) | |
+| `DEBUG` | Show debug information | |
 | `JS` | path to javascript file for fork() | /next/js/server.js |
-| `PORTS` | port range | 8080-n(cpus) |
+| `PORTS` | port range | 8080-8080+n(cpus) |
 | `IP` | localhost or 127.0.0.1 or a dedicated IP | 0.0.0.0 |
 | `OVERCOMMIT` | Fork more nodejs than CPU availabile | false |
 
-## Parent
-* [11notes/node:stable](https://github.com/11notes/docker-node)
+## Parent image
+* [11notes/node:stable](https://hub.docker.com/r/11notes/node)
 
-## Build with
-* [Alpine Linux](https://alpinelinux.org)
-* [NodeJS](https://nodejs.org/en)
+## Built with (thanks to)
+${{ CONTENT:11NOTES:IMAGE:NODE }}
 
 ## Tips
-* Don't bind to ports < 1024 (requires root), use NAT/reverse proxy
-* [Permanent Storage](https://github.com/11notes/alpine-docker-netshare) - Module to store permanent container data via NFS/CIFS and more
+* Only use rootless container runtime (podman, rootless docker)
+* Don't bind to ports < 1024 (requires root), use NAT/reverse proxy (haproxy, traefik, nginx)

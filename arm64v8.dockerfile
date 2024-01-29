@@ -6,8 +6,12 @@
       git; \
     git clone https://github.com/11notes/util.git;
 
+# :: Arch
+  FROM multiarch/qemu-user-static:x86_64-aarch64 as qemu
+
 # :: Header
-  FROM 11notes/node:stable
+  FROM 11notes/node:arm64v8-stable
+  COPY --from=qemu /usr/bin/qemu-aarch64-static /usr/bin
   COPY --from=util /util/node/util.js /
   ENV APP_ROOT=/next
 
